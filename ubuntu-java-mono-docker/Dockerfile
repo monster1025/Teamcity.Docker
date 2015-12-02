@@ -3,11 +3,21 @@
 FROM monster/ubuntu-java-mono
 MAINTAINER Ahmed Hassanien <ahmed_hassanien@otasys.com>
 
-RUN sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && \
-	sudo echo "deb http://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list && \
-	sudo apt-get -q update && \
-	sudo apt-get -yq install docker-engine && \
-        sudo apt-get -y autoremove && \
-        sudo apt-get clean && \
-        sudo rm -rf /var/lib/apt/lists/* /var/tmp/*
+# Let's start with some basic stuff.
+RUN apt-get update -qq && apt-get install -qqy \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    lxc \
+    iptables
+    
+# Install Docker from Docker Inc. repositories.
+RUN curl -sSL https://get.docker.com/ | sh
 
+# Install the magic wrapper.
+ADD ./wrapdocker /usr/local/bin/wrapdocker
+RUN chmod +x /usr/local/bin/wrapdocker
+
+# Define additional metadata for our image.
+VOLUME /var/lib/docker
+CMD ["wrapdocker"]
