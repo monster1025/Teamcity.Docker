@@ -10,6 +10,7 @@ mv /opt/agent/conf/buildAgent.dist.properties /opt/agent/conf/buildAgent.propert
 echo "" >> /opt/agent/conf/buildAgent.properties
 echo "env.MSBuild=/usr/lib/mono/xbuild/12.0/bin/" >> /opt/agent/conf/buildAgent.properties
 
+#write it before build
 rm -rf /opt/agent/plugins/dotnetPlugin/bin/JetBrains.BuildServer.MsBuildBootstrap.exe.config
 
 sed -i "s,http://localhost:8111/,$TEAMCITY_SERVER,g" /opt/agent/conf/buildAgent.properties
