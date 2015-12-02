@@ -1,0 +1,3 @@
+Building agent container:
+
+sudo docker build -t monster/teamcity-agent-mono teamcity-agent-mono
