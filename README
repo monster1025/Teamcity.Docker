@@ -1,9 +1,12 @@
+################## TeamCity ##############################
+
 Building teamcity server image:
 sudo docker build -t monster/docker-teamcity docker-teamcity
 
 Running teamcity server container:
 sudo docker run -d -v /srv/teamcity:/data/teamcity -p 8111:8111 docker-teamcity
 
+################## Agent related images #############################
 
 Building ubuntu-java-mono image:
 sudo docker build -t monster/ubuntu-java-mono ubuntu-java-mono
@@ -11,8 +14,16 @@ sudo docker build -t monster/ubuntu-java-mono ubuntu-java-mono
 Building ubuntu-java-mono-docker image:
 sudo docker build -t monster/ubuntu-java-mono-docker ubuntu-java-mono-docker
 
+################### Agent image #############################
 Building agent image:
 sudo docker build -t monster/teamcity-agent-mono teamcity-agent-mono
 
 Running agent container:
-sudo docker run --privileged -e TEAMCITY_SERVER=http://git.dev:8111/tc/ -p 9090:9090 monster/teamcity-agent-mono
+sudo docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/bin/docker -e TEAMCITY_SERVER=http://git.dev:8111/tc/ -9090:9090 monster/teamcity-agent-mono
+
+
+################# MONO RUNTIME ##############################
+Building mono-runtime image:
+sudo docker build -t monster/mono-runtime mono-runtime
+sudo docker push monster/mono-runtime 192.168.56.102:monster/mono-runtime
+
