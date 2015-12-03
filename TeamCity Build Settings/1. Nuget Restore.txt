@@ -1,0 +1,2 @@
+sudo rm -rf /opt/agent/plugins/dotnetPlugin/bin/JetBrains.BuildServer.MsBuildBootstrap.exe.config
+sudo mono %teamcity.tool.NuGet.CommandLine.3.3.0.nupkg%/tools/NuGet.exe restore %system.teamcity.build.workingDir%/src/%env.TEAMCITY_PROJECT_NAME%.sln

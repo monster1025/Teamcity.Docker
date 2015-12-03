@@ -1,0 +1,1 @@
+Command line parameters: /p:OutputPath=%system.teamcity.build.workingDir%/app
