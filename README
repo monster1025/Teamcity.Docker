@@ -4,15 +4,12 @@ Building teamcity server image:
 sudo docker build -t monster/docker-teamcity docker-teamcity
 
 Running teamcity server container:
-sudo docker run -d -v /srv/teamcity:/data/teamcity -p 8111:8111 docker-teamcity
+sudo docker run -d -v /srv/teamcity:/data/teamcity -p 8111:8111 monster/docker-teamcity
 
 ################## Agent related images #############################
 
 Building ubuntu-java-mono image:
 sudo docker build -t monster/ubuntu-java-mono ubuntu-java-mono
-
-Building ubuntu-java-mono-docker image:
-sudo docker build -t monster/ubuntu-java-mono-docker ubuntu-java-mono-docker
 
 ################### Agent image #############################
 Building agent image:
