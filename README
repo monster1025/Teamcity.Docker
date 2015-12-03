@@ -25,4 +25,5 @@ sudo docker build -t monster/mono-runtime mono-runtime
 sudo docker push monster/mono-runtime 192.168.56.102:monster/mono-runtime
 
 ################### RUNNING YOUR SERVICE ###################
-docker run -p 8058:8090 --restart=always localhost:5000/farelogics.service-v58
+docker run -d -p 8058:8090 --restart=always localhost:5000/farelogics.service-v58
+
