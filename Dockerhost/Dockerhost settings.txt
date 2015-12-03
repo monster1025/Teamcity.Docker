@@ -3,6 +3,6 @@ sudo snappy install docker
 #self ip
 sudo echo "192.168.56.102 dockerhost" >> /etc/hosts
 sudo vi /apps/docker/current/etc/docker.conf # add --insecure-registry dockerhost.com:5000
-docker run -d -p 5000:5000 --restart=always --name registry -v /apps/docker/1.6.2.005/srv:/var/lib/registry registry:2
+docker run -d -p 5000:5000 --restart=always --name registry -v /apps/docker/current/srv:/var/lib/registry registry:2
 #docker registry ui :)
-docker run -p 8080:8080 --restart=always atcol/docker-registry-ui
+docker run -d -p 8080:8080 --restart=always -e REG1=http://localhost:5000/v1/ atcol/docker-registry-ui

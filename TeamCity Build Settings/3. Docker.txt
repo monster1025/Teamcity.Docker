@@ -7,13 +7,15 @@ ADD     ./app app
 CMD     ["mono", "/app/%env.TEAMCITY_PROJECT_NAME%.exe"]
 EOF
 
+VER=$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")
+
 #build docker container
-sudo docker build -t monster/$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")-v%build.number% .
+sudo docker build -t monster/$VER:%build.number% .
 
 #publish
-sudo docker tag monster/$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")-v%build.number% dockerhost:5000/$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")-v%build.number%
-sudo docker push dockerhost:5000/$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")-v%build.number%
+sudo docker tag monster/$VER:%build.number% dockerhost:5000/$VER:%build.number%
+sudo docker push dockerhost:5000/$VER:%build.number%
 
 #clear local space
 sudo docker rm $(sudo docker ps -q -f status=exited)
-sudo docker rmi monster/$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")-v%build.number% dockerhost:5000/$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")-v%build.number%
+sudo docker rmi monster/$VER:%build.number% dockerhost:5000/$VER:%build.number%
