@@ -16,7 +16,7 @@ Building agent image:
 sudo docker build -t monster/teamcity-agent-mono teamcity-agent-mono
 
 Running agent container:
-sudo docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/bin/docker -e TEAMCITY_SERVER=http://git.dev:8111/tc/ -9090:9090 monster/teamcity-agent-mono
+sudo docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/bin/docker -e TEAMCITY_SERVER=http://git.dev:8111/tc/ -p 9090:9090 monster/teamcity-agent-mono
 
 
 ################# MONO RUNTIME ##############################
@@ -24,3 +24,5 @@ Building mono-runtime image:
 sudo docker build -t monster/mono-runtime mono-runtime
 sudo docker push monster/mono-runtime 192.168.56.102:monster/mono-runtime
 
+################### RUNNING YOUR SERVICE ###################
+docker run -p 8058:8090 --restart=always localhost:5000/farelogics.service-v58
