@@ -13,9 +13,15 @@ VER=$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")
 sudo docker build -t monster/$VER:%build.number% .
 
 #publish
+#build
 sudo docker tag monster/$VER:%build.number% dockerhost:5000/$VER:%build.number%
 sudo docker push dockerhost:5000/$VER:%build.number%
+
+#latest
+sudo docker tag monster/$VER:%build.number% dockerhost:5000/$VER:latest
+sudo docker push dockerhost:5000/$VER:latest
 
 #clear local space
 sudo docker rm $(sudo docker ps -q -f status=exited)
 sudo docker rmi monster/$VER:%build.number% dockerhost:5000/$VER:%build.number%
+sudo docker rmi monster/$VER:latest dockerhost:5000/$VER:latest
