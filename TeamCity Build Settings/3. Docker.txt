@@ -2,26 +2,26 @@
 cat > Dockerfile <<EOF
 FROM    monster/mono-runtime
 
-EXPOSE 8090
+EXPOSE 9090
 ADD     ./app app
-CMD     ["mono", "/app/%env.TEAMCITY_PROJECT_NAME%.exe"]
+CMD     ["mono", "/app/%env.TEAMCITY_PROJECT_NAME%.exe", "%build.number%"]
 EOF
 
-VER=$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")
+PROJECT=$(tr [A-Z] [a-z] <<< "%env.TEAMCITY_PROJECT_NAME%")
 
 #build docker container
-sudo docker build -t monster/$VER:%build.number% .
+sudo docker build -t monster/$PROJECT:%build.number% .
 
 #publish
 #build
-sudo docker tag monster/$VER:%build.number% dockerhost:5000/$VER:%build.number%
-sudo docker push dockerhost:5000/$VER:%build.number%
+sudo docker tag monster/$PROJECT:%build.number% %env.dockerhost%:5000/$PROJECT:%build.number%
+sudo docker push %env.dockerhost%:5000/$PROJECT:%build.number%
 
 #latest
-sudo docker tag -f monster/$VER:%build.number% dockerhost:5000/$VER:latest
-sudo docker push dockerhost:5000/$VER:latest
+sudo docker tag -f monster/$PROJECT:%build.number% %env.dockerhost%:5000/$PROJECT:latest
+sudo docker push %env.dockerhost%:5000/$PROJECT:latest
 
 #clear local space
 sudo docker rm $(sudo docker ps -q -f status=exited)
-sudo docker rmi monster/$VER:%build.number% dockerhost:5000/$VER:%build.number%
-sudo docker rmi dockerhost:5000/$VER:latest
+sudo docker rmi monster/$PROJECT:%build.number% %env.dockerhost%:5000/$PROJECT:%build.number%
+sudo docker rmi %env.dockerhost%:5000/$PROJECT:latest
