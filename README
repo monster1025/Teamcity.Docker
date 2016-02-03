@@ -16,8 +16,7 @@ Building agent image:
 sudo docker build -t monster/teamcity-agent-mono teamcity-agent-mono
 
 Running agent container:
-sudo docker run --restart=always -d -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/bin/docker -e TEAMCITY_SERVER=http://git.dev:8111/tc/ -p 9090:9090 monster/teamcity-agent-mono
-
+sudo docker run --restart=always -d -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/bin/docker -v /srv/agent/conf:/opt/agent/conf -e AGENT_NAME=DockerBuilder -e TEAMCITY_SERVER=http://git.dev:8111/tc/ -p 9090:9090 monster/teamcity-agent-mono
 
 ################# MONO RUNTIME ##############################
 Building mono-runtime image:
