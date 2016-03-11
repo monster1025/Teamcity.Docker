@@ -4,11 +4,14 @@ FROM monster/ubuntu-java-mono
 MAINTAINER Ahmed Hassanien <ahmed_hassanien@otasys.com>
 
 ADD setupAgent.sh /opt/setupAgent.sh
+ADD docker.list /etc/apt/sources.list.d/docker.list
 
 RUN DEBIAN_FRONTEND=noninteractive && \
 	chmod +x /opt/setupAgent.sh && \
+	apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && \
 	apt-get -q update && \
 	apt-get -yq install unzip git && \
+	apt-get -yq install docker-engine && \
 	apt-get autoremove && \
 	rm /bin/sh && ln -s /bin/bash /bin/sh && \
     	apt-get clean && \
